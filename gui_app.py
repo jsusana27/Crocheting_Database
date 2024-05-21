@@ -1588,6 +1588,505 @@ def add_new_customer():
         cur.close()
         conn.close()
 
+def modify_data_options():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What data do you want to modify?")
+    look_at_data_text.pack()
+
+    customer_info_button = tk.Button(root, text="Quantity Update", command=quantity_update_options)
+    customer_info_button.pack()
+
+def quantity_update_options():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What type of data do you want to update the quantity of?")
+    look_at_data_text.pack()
+
+    finished_product_button = tk.Button(root, text="Finished Products", command=modify_product_name)
+    finished_product_button.pack()
+
+    yarn_button = tk.Button(root, text="Yarn", command=modify_yarn_brand)
+    yarn_button.pack()
+
+    safety_eyes_button = tk.Button(root, text="Safety Eyes", command=modify_eyes_size)
+    safety_eyes_button.pack()
+
+def modify_product_name():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the name of the product whose quantity you are modifying?")
+    look_at_data_text.pack()
+
+    global entry_modify_product_name
+    entry_modify_product_name = tk.Entry(root, width=30)
+    entry_modify_product_name.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=product_increasing_decreasing)
+    next_button.pack(pady=10)
+
+def product_increasing_decreasing():
+    global modify_product_name_input
+    modify_product_name_input = entry_modify_product_name.get()
+    clear_window(root)
+
+    look_at_data_text = tk.Label(root, text="Are you increasing or decreasing the quantity?")
+    look_at_data_text.pack()
+
+    increasing_button = tk.Button(root, text="Increasing", command=product_increasing_howmuch)
+    increasing_button.pack(pady=10)
+
+    decreasing_button = tk.Button(root, text="Decreasing", command=product_decreasing_howmuch)
+    decreasing_button.pack(pady=10)
+
+def product_increasing_howmuch():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="How many of the new product are you adding?")
+    look_at_data_text.pack()
+
+    global entry_increase_product
+    entry_increase_product = tk.Entry(root, width=30)
+    entry_increase_product.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=increase_product)
+    next_button.pack(pady=10)
+
+def increase_product():
+    global increase_product_input
+    increase_product_input = entry_increase_product.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            UPDATE finishedproducts 
+            SET numberinstock = numberinstock + %s
+            WHERE name = %s
+            """,
+            (
+                increase_product_input,
+                modify_product_name_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Quantity has been successfully modified!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+
+def product_decreasing_howmuch():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="How many of the new product are you subtracting?")
+    look_at_data_text.pack()
+
+    global entry_decrease_product
+    entry_decrease_product = tk.Entry(root, width=30)
+    entry_decrease_product.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=decrease_product)
+    next_button.pack(pady=10)
+
+def decrease_product():
+    global decrease_product_input
+    decrease_product_input = entry_decrease_product.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            UPDATE finishedproducts 
+            SET numberinstock = numberinstock - %s
+            WHERE name = %s
+            """,
+            (
+                decrease_product_input,
+                modify_product_name_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Quantity has been successfully modified!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+
+def modify_yarn_brand():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the brand of the yarn whose quantity you are modifying?")
+    look_at_data_text.pack()
+
+    global entry_modify_yarn_brand
+    entry_modify_yarn_brand = tk.Entry(root, width=30)
+    entry_modify_yarn_brand.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=modify_yarn_fiber_type)
+    next_button.pack(pady=10)
+
+def modify_yarn_fiber_type():
+    global modify_yarn_brand_input
+    modify_yarn_brand_input = entry_modify_yarn_brand.get()
+    clear_window(root)
+
+    look_at_data_text = tk.Label(root, text="What is the fiber type of yarn whose quantity you are modifying?")
+    look_at_data_text.pack()
+
+    global entry_modify_yarn_fiber_type
+    entry_modify_yarn_fiber_type= tk.Entry(root, width=30)
+    entry_modify_yarn_fiber_type.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=modify_yarn_fiber_weight)
+    next_button.pack(pady=10)
+
+def modify_yarn_fiber_weight():
+    global modify_yarn_fiber_type_input
+    modify_yarn_fiber_type_input = entry_modify_yarn_fiber_type.get()
+    clear_window(root)
+
+    look_at_data_text = tk.Label(root, text="What is the fiber weight of yarn whose quantity you are modifying?")
+    look_at_data_text.pack()
+
+    global entry_modify_yarn_fiber_weight
+    entry_modify_yarn_fiber_weight= tk.Entry(root, width=30)
+    entry_modify_yarn_fiber_weight.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=modify_yarn_color)
+    next_button.pack(pady=10)
+
+def modify_yarn_color():
+    global modify_yarn_fiber_weight_input
+    modify_yarn_fiber_weight_input = entry_modify_yarn_fiber_weight.get()
+    clear_window(root)
+
+    look_at_data_text = tk.Label(root, text="What is the color of yarn whose quantity you are modifying?")
+    look_at_data_text.pack()
+
+    global entry_modify_yarn_color
+    entry_modify_yarn_color= tk.Entry(root, width=30)
+    entry_modify_yarn_color.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=yarn_increasing_decreasing)
+    next_button.pack(pady=10)
+
+def yarn_increasing_decreasing():
+    global modify_yarn_color_input
+    modify_yarn_color_input = entry_modify_yarn_color.get()
+    clear_window(root)
+
+    look_at_data_text = tk.Label(root, text="Are you increasing or decreasing the quantity?")
+    look_at_data_text.pack()
+
+    increasing_button = tk.Button(root, text="Increasing", command=yarn_increasing_howmuch)
+    increasing_button.pack(pady=10)
+
+    decreasing_button = tk.Button(root, text="Decreasing", command=yarn_decreasing_howmuch)
+    decreasing_button.pack(pady=10)
+
+def yarn_increasing_howmuch():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="How many skeins of the yarn are you adding?")
+    look_at_data_text.pack()
+
+    global entry_increase_yarn
+    entry_increase_yarn = tk.Entry(root, width=30)
+    entry_increase_yarn.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=increase_yarn)
+    next_button.pack(pady=10)
+
+def increase_yarn():
+    global increase_yarn_input
+    increase_yarn_input = entry_increase_yarn.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            UPDATE yarn 
+            SET numberofskeinsowned = numberofskeinsowned + %s
+            WHERE brand = %s and fibertype = %s and fiberweight = %s and color = %s;
+            """,
+            (
+                increase_yarn_input,
+                modify_yarn_brand_input,
+                modify_yarn_fiber_type_input,
+                modify_yarn_fiber_weight_input,
+                modify_yarn_color_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Quantity has been successfully modified!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+
+def yarn_decreasing_howmuch():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="How many skeins of the yarn are you subtracting?")
+    look_at_data_text.pack()
+
+    global entry_decrease_yarn
+    entry_decrease_yarn = tk.Entry(root, width=30)
+    entry_decrease_yarn.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=decrease_yarn)
+    next_button.pack(pady=10)
+
+def decrease_yarn():
+    global decrease_yarn_input
+    decrease_yarn_input = entry_decrease_yarn.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            UPDATE yarn 
+            SET numberofskeinsowned = numberofskeinsowned - %s
+            WHERE brand = %s and fibertype = %s and fiberweight = %s and color = %s;
+            """,
+            (
+                decrease_yarn_input,
+                modify_yarn_brand_input,
+                modify_yarn_fiber_type_input,
+                modify_yarn_fiber_weight_input,
+                modify_yarn_color_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Quantity has been successfully modified!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+
+def modify_eyes_size():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the size in millimeters of the safety eyes whose "
+                                            "quantity you are modifying?")
+    look_at_data_text.pack()
+
+    global entry_modify_eyes_size
+    entry_modify_eyes_size = tk.Entry(root, width=30)
+    entry_modify_eyes_size.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=modify_eyes_color)
+    next_button.pack(pady=10)
+
+def modify_eyes_color():
+    global modify_eyes_size_input
+    modify_eyes_size_input = entry_modify_eyes_size.get()
+    clear_window(root)
+
+    look_at_data_text = tk.Label(root, text="What is the color of the safety eyes whose quantity you are modifying?")
+    look_at_data_text.pack()
+
+    global entry_modify_eyes_color
+    entry_modify_eyes_color= tk.Entry(root, width=30)
+    entry_modify_eyes_color.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=modify_eyes_shape)
+    next_button.pack(pady=10)
+
+def modify_eyes_shape():
+    global modify_eyes_color_input
+    modify_eyes_color_input = entry_modify_eyes_color.get()
+    clear_window(root)
+
+    look_at_data_text = tk.Label(root, text="What is the shape of the safety eyes whose quantity you are modifying?")
+    look_at_data_text.pack()
+
+    global entry_modify_eyes_shape
+    entry_modify_eyes_shape= tk.Entry(root, width=30)
+    entry_modify_eyes_shape.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=eyes_increasing_decreasing)
+    next_button.pack(pady=10)
+
+def eyes_increasing_decreasing():
+    global modify_eyes_shape_input
+    modify_eyes_shape_input = entry_modify_eyes_shape.get()
+    clear_window(root)
+
+    look_at_data_text = tk.Label(root, text="Are you increasing or decreasing the quantity?")
+    look_at_data_text.pack()
+
+    increasing_button = tk.Button(root, text="Increasing", command=eyes_increasing_howmuch)
+    increasing_button.pack(pady=10)
+
+    decreasing_button = tk.Button(root, text="Decreasing", command=eyes_decreasing_howmuch)
+    decreasing_button.pack(pady=10)
+
+def eyes_increasing_howmuch():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="How many safety eyes are you adding?")
+    look_at_data_text.pack()
+
+    global entry_increase_eyes
+    entry_increase_eyes = tk.Entry(root, width=30)
+    entry_increase_eyes.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=increase_eyes)
+    next_button.pack(pady=10)
+
+def increase_eyes():
+    global increase_eyes_input
+    increase_eyes_input = entry_increase_eyes.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            UPDATE safetyeyes 
+            SET numberofeyesowned = numberofeyesowned + %s
+            WHERE sizeinmm = %s AND color = %s AND shape = %s;
+            """,
+            (
+                increase_eyes_input,
+                modify_eyes_size_input,
+                modify_eyes_color_input,
+                modify_eyes_shape_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Quantity has been successfully modified!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+
+def eyes_decreasing_howmuch():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="How many safety eyes are you subtracting?")
+    look_at_data_text.pack()
+
+    global entry_decrease_eyes
+    entry_decrease_eyes = tk.Entry(root, width=30)
+    entry_decrease_eyes.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=decrease_eyes)
+    next_button.pack(pady=10)
+
+def decrease_eyes():
+    global decrease_eyes_input
+    decrease_eyes_input = entry_decrease_eyes.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            UPDATE safetyeyes 
+            SET numberofeyesowned = numberofeyesowned - %s
+            WHERE sizeinmm = %s AND color = %s AND shape = %s;
+            """,
+            (
+                decrease_eyes_input,
+                modify_eyes_size_input,
+                modify_eyes_color_input,
+                modify_eyes_shape_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Quantity has been successfully modified!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+
+def delete_customer_name():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the first and last name of your customer?")
+    look_at_data_text.pack()
+
+    global entry_delete_customer_name
+    entry_delete_customer_name = tk.Entry(root, width=30)
+    entry_delete_customer_name.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=delete_customer)
+    next_button.pack(pady=10)
+
+def delete_customer():
+    global delete_customer_name_input
+    delete_customer_name_input = entry_delete_customer_name.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            DELETE FROM customers
+            WHERE name = %s
+            """,
+            (
+                delete_customer_name_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Customer has been successfully deleted!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+
 # Create main window
 root = tk.Tk()
 root.title("Jazmine's Yarn Database")
@@ -1600,6 +2099,12 @@ look_at_data_button.pack()
 
 add_data_button = tk.Button(root, text="Add data", command=add_data_options)
 add_data_button.pack()
+
+modify_data_button = tk.Button(root, text="Modify data", command=modify_data_options)
+modify_data_button.pack()
+
+delete_data_button = tk.Button(root, text="Delete customer", command=delete_customer_name)
+delete_data_button.pack()
 
 # Start the GUI event loop
 root.mainloop()

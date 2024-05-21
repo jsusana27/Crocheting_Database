@@ -6,6 +6,23 @@ def clear_window(root):
     for widget in root.winfo_children():
         widget.destroy()
 
+def start_up():
+    clear_window(root)
+    intro_text = tk.Label(root, text="What do you want to do?")
+    intro_text.pack()
+
+    look_at_data_button = tk.Button(root, text="Look at data", command=look_at_data_options)
+    look_at_data_button.pack()
+
+    add_data_button = tk.Button(root, text="Add data", command=add_data_options)
+    add_data_button.pack()
+
+    modify_data_button = tk.Button(root, text="Modify data", command=modify_data_options)
+    modify_data_button.pack()
+
+    delete_data_button = tk.Button(root, text="Delete customer", command=delete_customer_name)
+    delete_data_button.pack()
+
 def look_at_data_options():
     clear_window(root)
     look_at_data_text = tk.Label(root, text="What data do you want to look at?")
@@ -100,6 +117,9 @@ def yarn_brands():
         brand_label = tk.Label(frame, text=row[0])
         brand_label.grid(row=idx, column=0, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def yarn_colors():
     clear_window(root)
     conn = psycopg2.connect(
@@ -144,6 +164,9 @@ def yarn_colors():
         for i, value in enumerate(row):
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
 
 def yarn_by_prices():
     clear_window(root)
@@ -192,6 +215,9 @@ def yarn_by_prices():
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def fiber_types():
     clear_window(root)
     conn = psycopg2.connect(
@@ -236,6 +262,9 @@ def fiber_types():
         fiber_type_label = tk.Label(frame, text=row[0])
         fiber_type_label.grid(row=idx, column=0, padx=5, pady=5, sticky="w")
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def fiber_weights():
     clear_window(root)
     conn = psycopg2.connect(
@@ -279,6 +308,9 @@ def fiber_weights():
     for idx, row in enumerate(rows, start=1):
         brand_label = tk.Label(frame, text=row[0])
         brand_label.grid(row=idx, column=0, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
 
 def yarn_by_yardage():
     clear_window(root)
@@ -327,6 +359,9 @@ def yarn_by_yardage():
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def yarn_by_grams():
     clear_window(root)
     conn = psycopg2.connect(
@@ -374,6 +409,9 @@ def yarn_by_grams():
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def yarn_by_num_in_stock():
     clear_window(root)
     conn = psycopg2.connect(
@@ -420,6 +458,9 @@ def yarn_by_num_in_stock():
         for i, value in enumerate(row):
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
 
 def safety_eyes_options():
     clear_window(root)
@@ -486,6 +527,9 @@ def size_in_mm():
         brand_label = tk.Label(frame, text=row[0])
         brand_label.grid(row=idx, column=0, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def eye_colors():
     clear_window(root)
     conn = psycopg2.connect(
@@ -530,6 +574,9 @@ def eye_colors():
         brand_label = tk.Label(frame, text=row[0])
         brand_label.grid(row=idx, column=0, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def shapes():
     clear_window(root)
     conn = psycopg2.connect(
@@ -573,6 +620,9 @@ def shapes():
     for idx, row in enumerate(rows, start=1):
         brand_label = tk.Label(frame, text=row[0])
         brand_label.grid(row=idx, column=0, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
 
 def eyes_by_price():
     clear_window(root)
@@ -620,6 +670,9 @@ def eyes_by_price():
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def eyes_by_num_in_stock():
     clear_window(root)
     conn = psycopg2.connect(
@@ -665,6 +718,9 @@ def eyes_by_num_in_stock():
         for i, value in enumerate(row):
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
 
 def stuffing_options():
     clear_window(root)
@@ -726,6 +782,9 @@ def stuffing_brands():
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def types():
     clear_window(root)
     conn = psycopg2.connect(
@@ -771,6 +830,9 @@ def types():
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def stuffing_by_price():
     clear_window(root)
     conn = psycopg2.connect(
@@ -815,6 +877,9 @@ def stuffing_by_price():
         for i, value in enumerate(row):
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
 
 def products_options():
     clear_window(root)
@@ -882,6 +947,9 @@ def product_names():
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def product_time_to_make():
     clear_window(root)
     conn = psycopg2.connect(
@@ -927,6 +995,9 @@ def product_time_to_make():
         for i, value in enumerate(row):
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
 
 def product_cost_to_make():
     clear_window(root)
@@ -974,6 +1045,9 @@ def product_cost_to_make():
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def product_by_price():
     clear_window(root)
     conn = psycopg2.connect(
@@ -1020,6 +1094,9 @@ def product_by_price():
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
 
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
 def product_by_num_in_stock():
     clear_window(root)
     conn = psycopg2.connect(
@@ -1065,6 +1142,9 @@ def product_by_num_in_stock():
         for i, value in enumerate(row):
             data_label = tk.Label(frame, text=value)
             data_label.grid(row=idx, column=i, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
 
 def add_data_options():
     clear_window(root)
@@ -1188,6 +1268,7 @@ def add_new_finished_product():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def new_yarn_brand():
     clear_window(root)
@@ -1337,6 +1418,7 @@ def add_new_yarn():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def new_eyes_size():
     clear_window(root)
@@ -1440,6 +1522,7 @@ def add_new_eyes():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def new_stuffing_brand():
     clear_window(root)
@@ -1513,6 +1596,7 @@ def add_new_stuffing():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def new_customer_name():
     clear_window(root)
@@ -1587,6 +1671,7 @@ def add_new_customer():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def modify_data_options():
     clear_window(root)
@@ -1680,6 +1765,7 @@ def increase_product():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def product_decreasing_howmuch():
     clear_window(root)
@@ -1725,6 +1811,7 @@ def decrease_product():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def modify_yarn_brand():
     clear_window(root)
@@ -1844,6 +1931,7 @@ def increase_yarn():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def yarn_decreasing_howmuch():
     clear_window(root)
@@ -1892,6 +1980,7 @@ def decrease_yarn():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def modify_eyes_size():
     clear_window(root)
@@ -1996,6 +2085,7 @@ def increase_eyes():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def eyes_decreasing_howmuch():
     clear_window(root)
@@ -2043,6 +2133,7 @@ def decrease_eyes():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 def delete_customer_name():
     clear_window(root)
@@ -2086,25 +2177,15 @@ def delete_customer():
     finally:
         cur.close()
         conn.close()
+        start_up()
 
 # Create main window
 root = tk.Tk()
 root.title("Jazmine's Yarn Database")
 
-intro_text = tk.Label(root, text="What do you want to do?")
-intro_text.pack()
-
-look_at_data_button = tk.Button(root, text="Look at data", command=look_at_data_options)
-look_at_data_button.pack()
-
-add_data_button = tk.Button(root, text="Add data", command=add_data_options)
-add_data_button.pack()
-
-modify_data_button = tk.Button(root, text="Modify data", command=modify_data_options)
-modify_data_button.pack()
-
-delete_data_button = tk.Button(root, text="Delete customer", command=delete_customer_name)
-delete_data_button.pack()
+# Call start_up to set up GUI components
+start_up()
 
 # Start the GUI event loop
 root.mainloop()
+

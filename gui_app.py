@@ -1274,6 +1274,15 @@ def materials_needed_name():
     next_button.pack(pady=10)
 
 
+import tkinter as tk
+import psycopg2
+
+import tkinter as tk
+import psycopg2
+
+import tkinter as tk
+import psycopg2
+
 def materials_needed_display():
     global product_name_materials_needed_input
     product_name_materials_needed_input = entry_product_name_materials_needed.get()
@@ -1295,14 +1304,26 @@ def materials_needed_display():
             fpm.MaterialType,
             CASE
                 WHEN fpm.MaterialType = 'Yarn' THEN y.Brand
-                WHEN fpm.MaterialType = 'SafetyEyes' THEN se.Shape
+                WHEN fpm.MaterialType = 'Safety Eyes' THEN se.Shape
                 WHEN fpm.MaterialType = 'Stuffing' THEN s.Brand
             END AS MaterialDetail,
             fpm.QuantityUsed,
             CASE
                 WHEN fpm.MaterialType = 'Yarn' THEN y.Color
-                WHEN fpm.MaterialType = 'SafetyEyes' THEN se.Color
-            END AS Color
+                WHEN fpm.MaterialType = 'Safety Eyes' THEN se.Color
+            END AS Color,
+            CASE
+                WHEN fpm.MaterialType = 'Yarn' THEN y.FiberWeight
+                ELSE NULL
+            END AS FiberWeight,
+            CASE
+                WHEN fpm.MaterialType = 'Yarn' THEN y.FiberType
+                ELSE NULL
+            END AS FiberType,
+            CASE
+                WHEN fpm.MaterialType = 'Safety Eyes' THEN se.SizeInMM
+                ELSE NULL
+            END AS SizeInMM
         FROM 
             FinishedProducts fp
         JOIN 
@@ -1310,7 +1331,7 @@ def materials_needed_display():
         LEFT JOIN 
             Yarn y ON fpm.MaterialType = 'Yarn' AND fpm.MaterialID = y.YarnID
         LEFT JOIN 
-            SafetyEyes se ON fpm.MaterialType = 'SafetyEyes' AND fpm.MaterialID = se.SafetyEyesID
+            SafetyEyes se ON fpm.MaterialType = 'Safety Eyes' AND fpm.MaterialID = se.SafetyEyesID
         LEFT JOIN 
             Stuffing s ON fpm.MaterialType = 'Stuffing' AND fpm.MaterialID = s.StuffingID
         WHERE 
@@ -1338,7 +1359,7 @@ def materials_needed_display():
     canvas.create_window((0, 0), window=frame, anchor="nw")
 
     # Define headers
-    headers = ["Material Type", "Material Detail", "Quantity Used", "Color"]
+    headers = ["Material Type", "Brand/Shape", "Quantity Used", "Color", "Fiber Weight", "Fiber Type", "Size (mm)"]
 
     # Display headers
     for i, header in enumerate(headers):
@@ -1348,11 +1369,16 @@ def materials_needed_display():
     # Display data rows
     for idx, row in enumerate(rows, start=1):
         for i, value in enumerate(row):
-            data_label = tk.Label(frame, text=value)
+            data_label = tk.Label(frame, text=value if value is not None else "")
             data_label.grid(row=idx, column=i, padx=5, pady=5)
 
     back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
     back_to_start_button.pack(pady=10)
+
+# Example usage function call (if needed):
+# materials_needed_display()
+
+
 
 
 def add_data_options():

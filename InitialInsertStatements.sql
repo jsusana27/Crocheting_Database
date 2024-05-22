@@ -52,7 +52,33 @@ INSERT INTO finishedproducts (name, timetomake, totalcosttomake, saleprice, numb
 VALUES 
 ('Lavender Flower', interval '2 hours', 1, 6, 6);
 
+INSERT INTO finishedproductmaterials (finishedproductsid, materialtype, materialid, quantityused)
+VALUES
+(2, 'Yarn', 25, 0.03),
+(2, 'Yarn', 33, 0.03),
+(10, 'Yarn', 5, 0.25), 
+(10, 'Yarn', 4, 0.10), 
+(10, 'Yarn', 7, 0.25), 
+(10, 'Yarn', 21, 0.30), 
+(10, 'Yarn', 8, 0.10),
+(10, 'Yarn', 28, 0.02),
+(10, 'Safety Eyes', 6, 2),
+(10, 'Stuffing', 1, NULL);
+
 INSERT INTO Customers (Name, PhoneNumber, EmailAddress)
 VALUES 
 ('Joshua Susana', '765-475-6724', 'kuyang27@gmail.com'),
-('Jazmine Susana', '317-478-5119', 'jasusana0408@gmail.com');
+('Jazmine Susana', '317-478-5119', 'jasusana0408@gmail.com'),
+('Cassandra Okoye', '', '');
+
+INSERT INTO Customerpurchases (customerid, finishedproductsid)
+VALUES 
+(9, 10);
+
+INSERT INTO orders (customerid, orderdate, formofpayment, totalprice)
+VALUES
+-9, '2024-05-17', 'Zelle', 35);
+
+INSERT INTO orderproducts(orderid, finishedproductsid, quantity)
+VALUES
+(1, 10, 1);

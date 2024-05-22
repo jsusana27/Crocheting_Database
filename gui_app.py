@@ -2,26 +2,35 @@ import tkinter as tk
 import psycopg2
 import messagebox
 
+global button_y_offset
+button_y_offset = 0.3
+
+global title_font
+title_font = ("Helvetica", 20)
+
+global button_font
+button_font = ("Helvetica", 12)
+
 def clear_window(root):
     for widget in root.winfo_children():
         widget.destroy()
 
 def start_up():
     clear_window(root)
-    intro_text = tk.Label(root, text="What do you want to do?")
-    intro_text.pack()
+    intro_text = tk.Label(root, text="What do you want to do?", font=title_font, bg = 'powderblue')
+    intro_text.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
 
-    look_at_data_button = tk.Button(root, text="Look at data", command=look_at_data_options)
-    look_at_data_button.pack()
+    look_at_data_button = tk.Button(root, text="Look at data", font=button_font, command=look_at_data_options, width=20, height=2)
+    look_at_data_button.place(relx=0.5, rely=button_y_offset, anchor=tk.CENTER)
 
-    add_data_button = tk.Button(root, text="Add data", command=add_data_options)
-    add_data_button.pack()
+    add_data_button = tk.Button(root, text="Add data", font=button_font, command=add_data_options, width=20, height=2)
+    add_data_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
 
-    modify_data_button = tk.Button(root, text="Modify data", command=modify_data_options)
-    modify_data_button.pack()
+    modify_data_button = tk.Button(root, text="Modify data", font=button_font, command=modify_data_options, width=20, height=2)
+    modify_data_button.place(relx=0.5, rely=button_y_offset + 0.2, anchor=tk.CENTER)
 
-    delete_data_button = tk.Button(root, text="Delete customer", command=delete_customer_name)
-    delete_data_button.pack()
+    delete_data_button = tk.Button(root, text="Delete customer", font=button_font, command=delete_customer_name, width=20, height=2)
+    delete_data_button.place(relx=0.5, rely=button_y_offset + 0.3, anchor=tk.CENTER)
 
 def look_at_data_options():
     clear_window(root)
@@ -39,6 +48,15 @@ def look_at_data_options():
 
     products_button = tk.Button(root, text="Products", command=products_options)
     products_button.pack()
+
+    customers_button = tk.Button(root, text="Customers", command=all_customer_information)
+    customers_button.pack()
+
+    customers_button = tk.Button(root, text="General Order Information", command=all_general_order_info)
+    customers_button.pack()
+
+    customers_button = tk.Button(root, text="Materials Needed to Make a Product", command=materials_needed_name)
+    customers_button.pack()
 
 def yarn_options():
     clear_window(root)
@@ -1146,6 +1164,197 @@ def product_by_num_in_stock():
     back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
     back_to_start_button.pack(pady=10)
 
+def all_customer_information():
+    clear_window(root)
+    conn = psycopg2.connect(
+        dbname="postgres",
+        user="postgres",
+        password="Joshjazz18",
+        host="localhost",
+        port="5432"
+    )
+    cur = conn.cursor()
+    cur.execute("SELECT name, phonenumber, emailaddress FROM customers ORDER BY name")
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    # Create a canvas for scrolling
+    canvas = tk.Canvas(root)
+    canvas.pack(side="left", fill="both", expand=True)
+
+    # Add a scrollbar
+    scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
+    scrollbar.pack(side="right", fill="y")
+
+    # Configure the canvas
+    canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+    # Create a frame to contain the labels
+    frame = tk.Frame(canvas)
+    canvas.create_window((0, 0), window=frame, anchor="nw")
+
+    # Define headers
+    headers = ["Name", "Phone Number", "Email Address"]
+
+    # Display headers
+    for i, header in enumerate(headers):
+        header_label = tk.Label(frame, text=header, font=("Arial", 12, "bold"))
+        header_label.grid(row=0, column=i, padx=5, pady=5)
+
+    # Display data rows
+    for idx, row in enumerate(rows, start=1):
+        for i, value in enumerate(row):
+            data_label = tk.Label(frame, text=value)
+            data_label.grid(row=idx, column=i, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
+def all_general_order_info():
+    clear_window(root)
+    conn = psycopg2.connect(
+        dbname="postgres",
+        user="postgres",
+        password="Joshjazz18",
+        host="localhost",
+        port="5432"
+    )
+    cur = conn.cursor()
+    cur.execute("SELECT c.name, o.orderdate, o.formofpayment, o.totalprice "
+                "FROM orders o JOIN customers c ON o.customerid = c.customerid;")
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    # Create a canvas for scrolling
+    canvas = tk.Canvas(root)
+    canvas.pack(side="left", fill="both", expand=True)
+
+    # Add a scrollbar
+    scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
+    scrollbar.pack(side="right", fill="y")
+
+    # Configure the canvas
+    canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+    # Create a frame to contain the labels
+    frame = tk.Frame(canvas)
+    canvas.create_window((0, 0), window=frame, anchor="nw")
+
+    # Define headers
+    headers = ["Name", "Order Date", "Form of Payment", "Total Price"]
+
+    # Display headers
+    for i, header in enumerate(headers):
+        header_label = tk.Label(frame, text=header, font=("Arial", 12, "bold"))
+        header_label.grid(row=0, column=i, padx=5, pady=5)
+
+    # Display data rows
+    for idx, row in enumerate(rows, start=1):
+        for i, value in enumerate(row):
+            data_label = tk.Label(frame, text=value)
+            data_label.grid(row=idx, column=i, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
+def materials_needed_name():
+    clear_window(root)
+    new_product_name_text = tk.Label(root, text="What is the name of the product whose materials you want to see?")
+    new_product_name_text.pack()
+
+    global entry_product_name_materials_needed
+    entry_product_name_materials_needed = tk.Entry(root, width=30)
+    entry_product_name_materials_needed.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=materials_needed_display)
+    next_button.pack(pady=10)
+
+
+def materials_needed_display():
+    global product_name_materials_needed_input
+    product_name_materials_needed_input = entry_product_name_materials_needed.get()
+    clear_window(root)
+
+    # Database connection
+    conn = psycopg2.connect(
+        dbname="postgres",
+        user="postgres",
+        password="Joshjazz18",
+        host="localhost",
+        port="5432"
+    )
+    cur = conn.cursor()
+
+    # Execute query with a parameter tuple
+    cur.execute("""
+        SELECT 
+            fpm.MaterialType,
+            CASE
+                WHEN fpm.MaterialType = 'Yarn' THEN y.Brand
+                WHEN fpm.MaterialType = 'SafetyEyes' THEN se.Shape
+                WHEN fpm.MaterialType = 'Stuffing' THEN s.Brand
+            END AS MaterialDetail,
+            fpm.QuantityUsed,
+            CASE
+                WHEN fpm.MaterialType = 'Yarn' THEN y.Color
+                WHEN fpm.MaterialType = 'SafetyEyes' THEN se.Color
+            END AS Color
+        FROM 
+            FinishedProducts fp
+        JOIN 
+            FinishedProductMaterials fpm ON fp.FinishedProductsID = fpm.FinishedProductsID
+        LEFT JOIN 
+            Yarn y ON fpm.MaterialType = 'Yarn' AND fpm.MaterialID = y.YarnID
+        LEFT JOIN 
+            SafetyEyes se ON fpm.MaterialType = 'SafetyEyes' AND fpm.MaterialID = se.SafetyEyesID
+        LEFT JOIN 
+            Stuffing s ON fpm.MaterialType = 'Stuffing' AND fpm.MaterialID = s.StuffingID
+        WHERE 
+            fp.Name = %s;
+    """, (product_name_materials_needed_input,))
+
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    # Create a canvas for scrolling
+    canvas = tk.Canvas(root)
+    canvas.pack(side="left", fill="both", expand=True)
+
+    # Add a scrollbar
+    scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
+    scrollbar.pack(side="right", fill="y")
+
+    # Configure the canvas
+    canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+    # Create a frame to contain the labels
+    frame = tk.Frame(canvas)
+    canvas.create_window((0, 0), window=frame, anchor="nw")
+
+    # Define headers
+    headers = ["Material Type", "Material Detail", "Quantity Used", "Color"]
+
+    # Display headers
+    for i, header in enumerate(headers):
+        header_label = tk.Label(frame, text=header, font=("Arial", 12, "bold"))
+        header_label.grid(row=0, column=i, padx=5, pady=5)
+
+    # Display data rows
+    for idx, row in enumerate(rows, start=1):
+        for i, value in enumerate(row):
+            data_label = tk.Label(frame, text=value)
+            data_label.grid(row=idx, column=i, padx=5, pady=5)
+
+    back_to_start_button = tk.Button(root, text="Back to start", command=start_up)
+    back_to_start_button.pack(pady=10)
+
+
 def add_data_options():
     clear_window(root)
     add_data_text = tk.Label(root, text="What data do you want to add?")
@@ -2137,15 +2346,15 @@ def decrease_eyes():
 
 def delete_customer_name():
     clear_window(root)
-    look_at_data_text = tk.Label(root, text="What is the first and last name of your customer?")
-    look_at_data_text.pack()
+    look_at_data_text = tk.Label(root, text="What is the first and last name of your customer?", font=title_font, bg='powderblue')
+    look_at_data_text.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
 
     global entry_delete_customer_name
     entry_delete_customer_name = tk.Entry(root, width=30)
-    entry_delete_customer_name.pack(pady=10)
+    entry_delete_customer_name.place(relx=0.5, rely=button_y_offset, anchor=tk.CENTER)
 
-    next_button = tk.Button(root, text="Next", command=delete_customer)
-    next_button.pack(pady=10)
+    next_button = tk.Button(root, text="Next", command=delete_customer, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
 
 def delete_customer():
     global delete_customer_name_input
@@ -2182,6 +2391,9 @@ def delete_customer():
 # Create main window
 root = tk.Tk()
 root.title("Jazmine's Yarn Database")
+
+# Change the background color of the main window
+root.configure(bg='powderblue')
 
 # Call start_up to set up GUI components
 start_up()

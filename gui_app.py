@@ -2508,8 +2508,286 @@ def delete_data_options():
     look_at_data_text = tk.Label(root, text="What data do you want to delete?")
     look_at_data_text.pack()
 
+    yarn_button = tk.Button(root, text="Yarn", command=delete_yarn_brand)
+    yarn_button.pack()
+
+    yarn_button = tk.Button(root, text="Safety Eyes", command=delete_eyes_size)
+    yarn_button.pack()
+
+    yarn_button = tk.Button(root, text="Stuffing", command=delete_stuffing_brand)
+    yarn_button.pack()
+
+    yarn_button = tk.Button(root, text="Products", command=delete_product_name)
+    yarn_button.pack()
+
     yarn_button = tk.Button(root, text="Customer", command=delete_customer_name)
     yarn_button.pack()
+
+def delete_yarn_brand():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the brand of the yarn you want to delete?", font=title_font, bg='powderblue')
+    look_at_data_text.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+
+    global entry_delete_yarn_brand
+    entry_delete_yarn_brand = tk.Entry(root, width=30)
+    entry_delete_yarn_brand.place(relx=0.5, rely=button_y_offset, anchor=tk.CENTER)
+
+    next_button = tk.Button(root, text="Next", command=delete_yarn_fiber_type, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
+
+def delete_yarn_fiber_type():
+    global delete_yarn_brand_input
+    delete_yarn_brand_input = entry_delete_yarn_brand.get()
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the fiber type of the yarn you want to delete?")
+    look_at_data_text.pack()
+
+    global entry_delete_yarn_fiber_type
+    entry_delete_yarn_fiber_type = tk.Entry(root, width=30)
+    entry_delete_yarn_fiber_type.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=delete_yarn_fiber_weight, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
+
+def delete_yarn_fiber_weight():
+    global delete_yarn_fiber_type_input
+    delete_yarn_fiber_type_input = entry_delete_yarn_fiber_type.get()
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the fiber weight of the yarn you want to delete?")
+    look_at_data_text.pack()
+
+    global entry_delete_yarn_fiber_weight
+    entry_delete_yarn_fiber_weight = tk.Entry(root, width=30)
+    entry_delete_yarn_fiber_weight.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=delete_yarn_color, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
+
+def delete_yarn_color():
+    global delete_yarn_fiber_weight_input
+    delete_yarn_fiber_weight_input = entry_delete_yarn_fiber_weight.get()
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the color of the yarn you want to delete?")
+    look_at_data_text.pack()
+
+    global entry_delete_yarn_color
+    entry_delete_yarn_color = tk.Entry(root, width=30)
+    entry_delete_yarn_color.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=delete_yarn, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
+
+def delete_yarn():
+    global delete_yarn_color_input
+    delete_yarn_color_input = entry_delete_yarn_color.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            DELETE FROM yarn
+            WHERE brand = %s AND fibertype = %s AND fiberweight = %s AND color = %s;
+            """,
+            (
+                delete_yarn_brand_input,
+                delete_yarn_fiber_type_input,
+                delete_yarn_fiber_weight_input,
+                delete_yarn_color_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Yarn has been successfully deleted!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+        start_up()
+
+def delete_eyes_size():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the size in millimeters of the safety eyes you want to delete?", font=title_font, bg='powderblue')
+    look_at_data_text.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+
+    global entry_delete_eyes_size
+    entry_delete_eyes_size = tk.Entry(root, width=30)
+    entry_delete_eyes_size.place(relx=0.5, rely=button_y_offset, anchor=tk.CENTER)
+
+    next_button = tk.Button(root, text="Next", command=delete_eyes_color, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
+
+def delete_eyes_color():
+    global delete_eyes_size_input
+    delete_eyes_size_input = entry_delete_eyes_size.get()
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the color of the safety eyes you want to delete?")
+    look_at_data_text.pack()
+
+    global entry_delete_eyes_color
+    entry_delete_eyes_color = tk.Entry(root, width=30)
+    entry_delete_eyes_color.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=delete_eyes_shape, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
+
+def delete_eyes_shape():
+    global delete_eyes_color_input
+    delete_eyes_color_input = entry_delete_eyes_color.get()
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the shape of the safety eyes you want to delete?")
+    look_at_data_text.pack()
+
+    global entry_delete_eyes_shape
+    entry_delete_eyes_shape = tk.Entry(root, width=30)
+    entry_delete_eyes_shape.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=delete_eyes, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
+
+def delete_eyes():
+    global delete_eyes_shape_input
+    delete_eyes_shape_input = entry_delete_eyes_shape.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            DELETE FROM safetyeyes
+            WHERE sizeinmm = %s AND color = %s AND shape = %s;
+            """,
+            (
+                delete_eyes_size_input,
+                delete_eyes_color_input,
+                delete_eyes_shape_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Safety eyes have been successfully deleted!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+        start_up()
+
+def delete_stuffing_brand():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the brand of the stuffing you want to delete?", font=title_font, bg='powderblue')
+    look_at_data_text.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+
+    global entry_delete_stuffing_brand
+    entry_delete_stuffing_brand = tk.Entry(root, width=30)
+    entry_delete_stuffing_brand.place(relx=0.5, rely=button_y_offset, anchor=tk.CENTER)
+
+    next_button = tk.Button(root, text="Next", command=delete_stuffing_type, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
+
+def delete_stuffing_type():
+    global delete_stuffing_brand_input
+    delete_stuffing_brand_input = entry_delete_stuffing_brand.get()
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the type of the stuffing you want to delete?")
+    look_at_data_text.pack()
+
+    global entry_delete_stuffing_type
+    entry_delete_stuffing_type = tk.Entry(root, width=30)
+    entry_delete_stuffing_type.pack(pady=10)
+
+    next_button = tk.Button(root, text="Next", command=delete_stuffing, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
+
+def delete_stuffing():
+    global delete_stuffing_type_input
+    delete_stuffing_type_input = entry_delete_stuffing_type.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            DELETE FROM stuffing
+            WHERE brand = %s AND type = %s;
+            """,
+            (
+                delete_stuffing_brand_input,
+                delete_stuffing_type_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Stuffing has been successfully deleted!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+        start_up()
+
+def delete_product_name():
+    clear_window(root)
+    look_at_data_text = tk.Label(root, text="What is the name of the product you want to delete?", font=title_font, bg='powderblue')
+    look_at_data_text.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+
+    global entry_delete_product_name
+    entry_delete_product_name = tk.Entry(root, width=30)
+    entry_delete_product_name.place(relx=0.5, rely=button_y_offset, anchor=tk.CENTER)
+
+    next_button = tk.Button(root, text="Next", command=delete_product, font=button_font, width=5, height=1)
+    next_button.place(relx=0.5, rely=button_y_offset + 0.1, anchor=tk.CENTER)
+
+def delete_product():
+    global delete_product_name_input
+    delete_product_name_input = entry_delete_product_name.get()
+    clear_window(root)
+
+    try:
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="Joshjazz18",
+            host="localhost",
+            port="5432"
+        )
+        cur = conn.cursor()
+        cur.execute(
+            """
+            DELETE FROM finishedproducts
+            WHERE name = %s
+            """,
+            (
+                delete_product_name_input,
+            )
+        )
+        conn.commit()
+        messagebox.showinfo("Success", "Product has been successfully deleted!")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()
+        conn.close()
+        start_up()
 
 def delete_customer_name():
     clear_window(root)

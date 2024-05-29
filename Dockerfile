@@ -17,4 +17,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Run the application
-CMD ["python", "gui.py"]
+CMD ["xvfb-run", "--auto-servernum", "--server-args='-screen 0 640x480x24", "python", "gui.py"]

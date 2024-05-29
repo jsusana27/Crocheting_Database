@@ -8,14 +8,14 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# INstall Tkinter dependencies
 RUN apt-get update && apt-get install -y \
     python3-tk \
-    && rm -rf \var\lib\apt\lists\*
+    && rm -rf /var/lib/apt/lists/*
 
-# Make port 8080 availalbe to the world outside this container
+# Install other dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Make port 8080 available to the world outside this container
 EXPOSE 8080
 
 # Run the application

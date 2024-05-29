@@ -1,6 +1,6 @@
 import tkinter as tk
+from tkinter import messagebox
 import psycopg2
-import messagebox
 from datetime import datetime
 
 global title_font

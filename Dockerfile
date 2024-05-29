@@ -10,11 +10,13 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Ensure Python output is sent straight to terminal (no buffering)
-ENV PYTHONUNBUFFERED=1
+# INstall Tkinter dependencies
+RUN apt-get update && apt-get install -y \
+    python3-tk \
+    && rm -rf \var\lib\apt\lists\*
 
-# Expose the port your application will run on
-EXPOSE 5000
+# Make port 8080 availalbe to the world outside this container
+EXPOSE 8080
 
 # Run the application
 CMD ["python", "gui.py"]

@@ -8,16 +8,13 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
-RUN apt-get update && apt-get install -y \
-    python3-tk \
-    tk \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-getupdate && apt-get install -y python3-tk && rm -rf /var/lib/apt/lists/*
 
 # Install other dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Make port 8080 available to the world outside this container
-EXPOSE 8080
+EXPOSE 5000
 
 # Run the application
-CMD ["bash"]
+CMD ["python", "gui.py]

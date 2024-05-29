@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
-RUN apt-getupdate && apt-get install -y python3-tk && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y python3-tk && rm -rf /var/lib/apt/lists/*
 
 # Install other dependencies
 RUN pip install --no-cache-dir -r requirements.txt

@@ -8,7 +8,9 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
-RUN apt-get update && apt-get install -y python3-tk && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y python3-tk xvfb && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install other dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -17,4 +19,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Run the application
-CMD ["xvfb-run", "--auto-servernum", "--server-args='-screen 0 640x480x24", "python", "gui.py"]
+CMD ["xvfb-run", "--auto-servernum", "--server-args=-screen 0 640x480x24", "python", "gui.py"]

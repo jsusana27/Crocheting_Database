@@ -20,4 +20,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8080
 
 # Run the application
-CMD ["python", "gui.py"]
+CMD ["bash"]

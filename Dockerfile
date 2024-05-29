@@ -10,6 +10,7 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN apt-get update && apt-get install -y \
     python3-tk \
+    tk \
     && rm -rf /var/lib/apt/lists/*
 
 # Install other dependencies

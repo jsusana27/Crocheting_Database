@@ -10,7 +10,7 @@ This includes a Python GUI application that runs queries off of a PostgreSQL dat
 - User-friendly GUI
 
 ## Technologies Used
--Python
--Tkinter
--PostgreSQL
--psycopg2
+- Python
+- Tkinter
+- PostgreSQL
+- psycopg2

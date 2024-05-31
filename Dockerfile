@@ -7,15 +7,13 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install any needed packages specified in requirements.txt
+# Install dependencies
 RUN apt-get update && \
     apt-get install -y python3-tk xvfb && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Install other dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Make port 8080 available to the world outside this container
+# Expose the correct port
 EXPOSE 5000
 
 # Run the application
